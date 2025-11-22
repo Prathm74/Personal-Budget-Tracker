@@ -10,16 +10,18 @@ export default function TransactionForm({ onAdded, categoriesProp }) {
     date: "",
     type: "expense",
     categoryId: "",
+    description: "",
   });
 
   useEffect(() => {
-    if (!categoriesProp) loadCategories();
+     loadCategories();
   }, []);
 
   const loadCategories = async () => {
     try {
       setLoadingCats(true);
       const res = await getCategories();
+      console.log(res);
       setCategories(res);
     } catch (err) {
       console.error(err);
@@ -44,8 +46,9 @@ export default function TransactionForm({ onAdded, categoriesProp }) {
         date: form.date,
         type: form.type,
         categoryId: Number(form.categoryId),
+        description: form.description,
       });
-      setForm({ amount: "", date: "", type: "expense", categoryId: "" });
+      setForm({ amount: "", date: "", type: "expense", categoryId: "", description: "" });
       onAdded && onAdded();
     } catch (err) {
       alert(err.message || "Failed to add transaction");
@@ -83,8 +86,16 @@ export default function TransactionForm({ onAdded, categoriesProp }) {
           <option key={c.id} value={c.id}>
             {c.name}
           </option>
+
         ))}
       </select>
+
+      <input
+        name="description"
+        placeholder="Description (optional)"
+        value={form.description}
+        onChange={handleChange}
+      />
 
       <div style={{ display: "flex", gap: 12 }}>
         <button type="submit" className="btn-primary">Add</button>

@@ -16,7 +16,6 @@ export default function App() {
       {/* PUBLIC ROUTES */}
       <Route path="/login" element={<Login />} />
       {/* <Route path="/register" element={<Register />} /> */}
-
       {/* PROTECTED */}
       <Route
         path="/"

@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function Login() {
   const nav = useNavigate();
-  const [form, setForm] = useState({});
+  const [form, setForm] = useState({ email: "test@example.com", password: "123456" });
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState("");
 
@@ -21,7 +21,8 @@ export default function Login() {
     try {
       setLoading(true);
       await login(form.email, form.password);
-      nav("/");
+      // ensure token saved before redirect
+      setTimeout(() => nav("/"), 0);
     } catch (error) {
       setErr(error.message || "Login failed");
     } finally {

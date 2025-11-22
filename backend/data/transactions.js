@@ -1,1 +1,1 @@
-export let transactions = [];
+export default [];

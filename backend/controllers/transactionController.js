@@ -1,35 +1,42 @@
-import { transactions } from "../data/transactions.js";
-import { categories } from "../data/categories.js";
+import transactions from "../data/transactions.js";
+import categories from "../data/categories.js";
 
 export const getTransactions = (req, res) => {
   res.json(transactions);
 };
 
-export const addTransaction = (req, res) => {
-  const { amount, date, categoryId, type } = req.body;
+export const createTransaction = (req, res) => {
+  const { amount, date, type, categoryId, description } = req.body;
 
-  const categoryObj = categories.find(c => c.id === categoryId);
+  if (!amount || !date || !type || !categoryId)
+    return res.status(400).json({ message: "Missing fields" });
 
-  const newTransaction = {
+  const category = categories.find(c => c.id === Number(categoryId));
+  if (!category)
+    return res.status(400).json({ message: "Invalid categoryId" });
+
+  const newTx = {
     id: transactions.length + 1,
-    amount,
+    amount: Number(amount),
     date,
     type,
-    category: categoryObj
+    category,
+    description: description || ""
   };
 
-  transactions.push(newTransaction);
-  res.json(newTransaction);
+  transactions.push(newTx);
+
+  res.json(newTx);
 };
 
 export const deleteTransaction = (req, res) => {
   const id = Number(req.params.id);
+  const idx = transactions.findIndex(t => t.id === id);
 
-  const index = transactions.findIndex(t => t.id === id);
-  if (index === -1)
-    return res.status(404).json({ message: "Not found" });
+  if (idx === -1)
+    return res.status(404).json({ message: "Transaction not found" });
 
-  transactions.splice(index, 1);
+  transactions.splice(idx, 1);
 
   res.json({ message: "Transaction deleted" });
 };

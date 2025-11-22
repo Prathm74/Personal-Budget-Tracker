@@ -4,11 +4,8 @@ import { Navigate } from "react-router-dom";
 import { isLoggedIn } from "../api/requests";
 
 export default function ProtectedRoute({ children }) {
-  const logged = isLoggedIn();
-
-  if (!logged) {
+  if (!isLoggedIn()) {
     return <Navigate to="/login" replace />;
   }
-
   return children;
 }

@@ -30,16 +30,6 @@ export async function login(email, password) {
   return data;
 }
 
-// optional register stub (depends on your backend)
-export async function register(data) {
-  const res = await fetch(`${API_URL}/auth/register`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data),
-  });
-  return res.json();
-}
-
 // ----------------- CATEGORIES -----------------
 export async function getCategories() {
   const res = await fetch(`${API_URL}/categories`, { headers: authHeader() });
@@ -53,7 +43,10 @@ export async function createCategory(payload) {
     headers: authHeader(),
     body: JSON.stringify(payload),
   });
-  if (!res.ok) throw new Error("Failed to create category");
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err.message || "Failed to create category");
+  }
   return res.json();
 }
 
@@ -79,7 +72,8 @@ export async function getTransactions() {
    amount: Number,
    date: "YYYY-MM-DD",
    type: "income"|"expense",
-   categoryId: Number
+   categoryId: Number,
+   description?: string
  }
 */
 export async function createTransaction(payload) {
@@ -104,7 +98,7 @@ export async function deleteTransaction(id) {
   return res.json();
 }
 
-// ----------------- BUDGET (optional) -----------------
+// ----------------- BUDGET -----------------
 export async function getBudget() {
   const res = await fetch(`${API_URL}/budget`, { headers: authHeader() });
   if (!res.ok) throw new Error("Failed to fetch budget");
@@ -117,6 +111,9 @@ export async function setBudget(payload) {
     headers: authHeader(),
     body: JSON.stringify(payload),
   });
-  if (!res.ok) throw new Error("Failed to set budget");
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err.message || "Failed to set budget");
+  }
   return res.json();
 }

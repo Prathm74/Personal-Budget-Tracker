@@ -14,7 +14,6 @@ export default function Dashboard() {
   }, []);
 
   async function loadDashboard() {
-    console.log("Loading dashboard...");
     try {
       const b = await getBudget();
       const c = await getCategories();
@@ -27,7 +26,6 @@ export default function Dashboard() {
       console.error("Dashboard load error:", err);
     }
   }
-
 
   const income = txs.filter(t => t.type === "income").reduce((s,t)=>s+Number(t.amount),0);
   const expense = txs.filter(t => t.type === "expense").reduce((s,t)=>s+Number(t.amount),0);

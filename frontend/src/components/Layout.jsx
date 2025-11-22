@@ -1,10 +1,10 @@
 // src/components/Layout.jsx
 import React, { useState } from "react";
 import { Link, Outlet, useNavigate } from "react-router-dom";
-import { clearToken, isLoggedIn } from "../api/requests";
+import { clearToken } from "../api/requests";
 
 export default function Layout() {
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(window.innerWidth >= 768);
   const nav = useNavigate();
 
   const logout = () => {
