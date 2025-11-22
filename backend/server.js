@@ -29,5 +29,6 @@ app.post("/budget", authMiddleware, (req, res) => {
   res.json({ message: "Budget updated", amount: budget.amount });
 });
 
-const PORT = 5000;
-app.listen(PORT, () => console.log(`Server running on ${PORT}`));
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log("Server running on", PORT));
+
