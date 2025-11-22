@@ -1,5 +1,7 @@
 // src/api/requests.js
-const API_URL = "http://localhost:5000";
+// const API_URL = "http://localhost:5000";
+const API_URL = "https://personal-budget-tracker-qebs.onrender.com";
+
 
 // Token helpers
 export const saveToken = (token) => localStorage.setItem("token", token);
